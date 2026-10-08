@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}EDA Analytics — Mumbai Commute Analytics{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <h2 class="fw-bold text-dark mb-1">Exploratory Data Analysis (EDA) & Machine Learning Insights</h2>
+    <p class="text-muted mb-0">Visual analysis generated with Pandas, Matplotlib, Seaborn, and Scikit-learn</p>
+</div>
+
+<!-- Key Findings Overview Cards -->
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="p-3 bg-white rounded shadow-sm border-start border-4 border-primary">
+            <h6 class="text-muted mb-1 small text-uppercase">1. Speed Leader</h6>
+            <h5 class="fw-bold text-primary mb-1">Metro (Overall)</h5>
+            <small class="text-muted">Averages 30.6 min travel time due to dedicated tracks & zero traffic.</small>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="p-3 bg-white rounded shadow-sm border-start border-4 border-danger">
+            <h6 class="text-muted mb-1 small text-uppercase">2. Long Distance</h6>
+            <h5 class="fw-bold text-danger mb-1">Local Train</h5>
+            <small class="text-muted">Fastest for 20+ km corridors (e.g. Borivali to Churchgate).</small>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="p-3 bg-white rounded shadow-sm border-start border-4 border-success">
+            <h6 class="text-muted mb-1 small text-uppercase">3. Lowest Cost</h6>
+            <h5 class="fw-bold text-success mb-1">Local Train (₹12.8 avg)</h5>
+            <small class="text-muted">Cost per km is under ₹1.5/km, lowest in the entire Mumbai MMR.</small>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="p-3 bg-white rounded shadow-sm border-start border-4 border-warning">
+            <h6 class="text-muted mb-1 small text-uppercase">4. Peak Vulnerability</h6>
+            <h5 class="fw-bold text-warning mb-1">Auto Rickshaws</h5>
+            <small class="text-muted">Travel time jumps by ~40% during peak rush and heavy rain.</small>
+        </div>
+    </div>
+</div>
+
+<!-- Section 1: Transport Comparison Charts -->
+<div class="card stat-card p-4 mb-4">
+    <h4 class="fw-bold text-dark mb-2">1. Transport Mode Comparison (Time, Cost, Delay, Comfort)</h4>
+    <p class="text-muted small">
+        Cross-comparing key performance indicators across Metro, Local Train, and Auto Rickshaw.
+    </p>
+    <div class="text-center my-3">
+        <img src="{{ url_for('static', filename='images/transport_comparison.png') }}" class="img-fluid rounded border shadow-sm" alt="Transport Comparison Chart">
+    </div>
+    <div class="alert alert-light border mt-3 mb-0 small text-secondary">
+        <strong>Data Science Observation:</strong> 
+        Auto rickshaw costs scale quickly with distance, making them unviable for long journeys, whereas local train costs remain flat and affordable. Metro balances comfort and cost effectively.
+    </div>
+</div>
+
+<!-- Section 2: Distance Analysis -->
+<div class="card stat-card p-4 mb-4">
+    <h4 class="fw-bold text-dark mb-2">2. Distance vs Travel Time and Travel Cost</h4>
+    <p class="text-muted small">
+        Scatter plot and regression trends exploring how distance affects time and cost for each mode.
+    </p>
+    <div class="text-center my-3">
+        <img src="{{ url_for('static', filename='images/distance_vs_time_cost.png') }}" class="img-fluid rounded border shadow-sm" alt="Distance vs Time and Cost">
+    </div>
+    <div class="alert alert-light border mt-3 mb-0 small text-secondary">
+        <strong>Data Science Observation:</strong> 
+        There is a strong linear correlation between distance and cost for Auto Rickshaws ($R^2 \approx 0.98$). Conversely, Local Train fares remain capped and show minimal fare increase with distance.
+    </div>
+</div>
+
+<!-- Section 3: Peak Hour & Crowd Analysis -->
+<div class="row g-4 mb-4">
+    <div class="col-lg-6">
+        <div class="card stat-card p-4 h-100">
+            <h5 class="fw-bold text-dark mb-2">3. Peak Hour Impact</h5>
+            <p class="text-muted small">Comparison of travel times during peak vs non-peak hours.</p>
+            <div class="text-center my-auto">
+                <img src="{{ url_for('static', filename='images/peak_hour_impact.png') }}" class="img-fluid rounded border shadow-sm" alt="Peak Hour Impact">
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card stat-card p-4 h-100">
+            <h5 class="fw-bold text-dark mb-2">4. Crowd Distribution</h5>
+            <p class="text-muted small">Crowd level severity percentage across transport modes.</p>
+            <div class="text-center my-auto">
+                <img src="{{ url_for('static', filename='images/crowd_distribution.png') }}" class="img-fluid rounded border shadow-sm" alt="Crowd Distribution">
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Section 4: Route Analysis -->
+<div class="card stat-card p-4 mb-4">
+    <h4 class="fw-bold text-dark mb-2">5. Route and Area Commute Analysis</h4>
+    <p class="text-muted small">
+        Average travel times for the most frequent commuter routes in the simulated dataset.
+    </p>
+    <div class="text-center my-3">
+        <img src="{{ url_for('static', filename='images/route_analysis.png') }}" class="img-fluid rounded border shadow-sm" alt="Route Analysis">
+    </div>
+</div>
+
+<!-- Section 5: Machine Learning Evaluation Charts -->
+<div class="card stat-card p-4 mb-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="fw-bold text-dark mb-0">6. Machine Learning Model Evaluation</h4>
+        <span class="badge bg-success fs-6">Decision Tree Accuracy: {{ metrics.dt_accuracy }}%</span>
+    </div>
+    <div class="row g-4">
+        <div class="col-md-6 text-center">
+            <h6 class="fw-bold text-secondary mb-2">Confusion Matrix (Test Set)</h6>
+            <img src="{{ url_for('static', filename='images/confusion_matrix.png') }}" class="img-fluid rounded border shadow-sm" alt="Confusion Matrix">
+            <small class="text-muted d-block mt-2">Evaluated on {{ metrics.total_test_samples }} unseen test samples.</small>
+        </div>
+        <div class="col-md-6 text-center">
+            <h6 class="fw-bold text-secondary mb-2">Decision Tree Feature Importance</h6>
+            <img src="{{ url_for('static', filename='images/feature_importance.png') }}" class="img-fluid rounded border shadow-sm" alt="Feature Importance">
+            <small class="text-muted d-block mt-2">Shows which features contributed most to mode classification.</small>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

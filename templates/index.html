@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block title %}Home — Mumbai Commute Analytics{% endblock %}
+
+{% block content %}
+<div class="row align-items-center mb-5 py-4 bg-white rounded shadow-sm p-4">
+    <div class="col-lg-8">
+        <span class="badge bg-primary mb-2 px-3 py-2">B.Sc Data Science College Project</span>
+        <h1 class="display-5 fw-bold text-dark">Mumbai Commute Analytics</h1>
+        <h4 class="text-secondary fw-normal mb-3">Metro vs Mumbai Local vs Auto Rickshaw</h4>
+        <p class="lead text-muted">
+            An empirical data science project analysing Mumbai commuting patterns, travel time, economic cost, delays, peak-hour bottlenecks, and crowd levels to evaluate commuter choices and train an explainable Machine Learning model.
+        </p>
+        <div class="d-flex gap-2 flex-wrap mt-3">
+            <a href="{{ url_for('dashboard') }}" class="btn btn-primary px-4 py-2">
+                <i class="bi bi-speedometer2 me-1"></i> View Dashboard
+            </a>
+            <a href="{{ url_for('comparison') }}" class="btn btn-outline-danger px-4 py-2">
+                <i class="bi bi-bar-chart-line me-1"></i> Transport Comparison
+            </a>
+            <a href="{{ url_for('prediction') }}" class="btn btn-outline-success px-4 py-2">
+                <i class="bi bi-cpu me-1"></i> ML Mode Predictor
+            </a>
+        </div>
+    </div>
+    <div class="col-lg-4 text-center mt-4 mt-lg-0">
+        <div class="p-4 bg-light rounded-3 border">
+            <h5 class="fw-bold mb-2 text-dark">Simulated Dataset</h5>
+            <div class="display-6 fw-bold text-primary">{{ total_trips }}</div>
+            <p class="text-muted mb-2">Cleaned Commute Records</p>
+            <hr>
+            <small class="text-secondary d-block">
+                Routes covering Andheri, Borivali, Dadar, Bandra, Thane, Churchgate, BKC & more.
+            </small>
+        </div>
+    </div>
+</div>
+
+<!-- Three Transport Modes Overview -->
+<div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="card stat-card h-100 border-top border-4 border-primary p-3">
+            <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h5 class="card-title fw-bold text-primary mb-0">Mumbai Metro</h5>
+                    <i class="bi bi-train-front text-primary fs-3"></i>
+                </div>
+                <p class="card-text text-muted small">
+                    Modern, air-conditioned rapid transit with high reliability, minimal traffic delays, and consistent travel times.
+                </p>
+                <ul class="list-unstyled small text-secondary">
+                    <li><i class="bi bi-check-circle-fill text-success me-1"></i> <strong>Speed:</strong> High & Reliable</li>
+                    <li><i class="bi bi-check-circle-fill text-success me-1"></i> <strong>Comfort:</strong> AC & Clean (4-5/5)</li>
+                    <li><i class="bi bi-dash-circle-fill text-warning me-1"></i> <strong>Cost:</strong> Moderate (₹20-₹60)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card stat-card h-100 border-top border-4 border-danger p-3">
+            <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h5 class="card-title fw-bold text-danger mb-0">Mumbai Local Train</h5>
+                    <i class="bi bi-train-lightrail-front text-danger fs-3"></i>
+                </div>
+                <p class="card-text text-muted small">
+                    The lifeline of Mumbai. Unbeatable travel cost and fastest for long distances (20–40 km), but prone to extreme peak crowd.
+                </p>
+                <ul class="list-unstyled small text-secondary">
+                    <li><i class="bi bi-check-circle-fill text-success me-1"></i> <strong>Cost:</strong> Ultra Cheap (₹5-₹25)</li>
+                    <li><i class="bi bi-check-circle-fill text-success me-1"></i> <strong>Long Distance:</strong> Fastest</li>
+                    <li><i class="bi bi-exclamation-triangle-fill text-danger me-1"></i> <strong>Crowd:</strong> Very High / Super Dense</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card stat-card h-100 border-top border-4 border-warning p-3">
+            <div class="card-body">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h5 class="card-title fw-bold text-warning mb-0">Auto Rickshaw</h5>
+                    <i class="bi bi-taxi-front text-warning fs-3"></i>
+                </div>
+                <p class="card-text text-muted small">
+                    Door-to-door suburban connectivity ideal for short routes (&lt;8 km), but vulnerable to road congestion and high fares.
+                </p>
+                <ul class="list-unstyled small text-secondary">
+                    <li><i class="bi bi-check-circle-fill text-success me-1"></i> <strong>Convenience:</strong> Last-mile connectivity</li>
+                    <li><i class="bi bi-dash-circle-fill text-danger me-1"></i> <strong>Cost:</strong> High (Meter-based)</li>
+                    <li><i class="bi bi-exclamation-triangle-fill text-danger me-1"></i> <strong>Traffic Impact:</strong> Severe peak delays</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Key Research Questions -->
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-header bg-dark text-white py-3">
+        <h5 class="mb-0"><i class="bi bi-question-circle-fill text-warning me-2"></i>Core Data Science Research Questions</h5>
+    </div>
+    <div class="card-body p-4">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <div class="p-3 bg-light rounded border h-100">
+                    <h6 class="fw-bold text-dark"><i class="bi bi-arrow-right-circle text-primary me-2"></i>Which transport mode is fastest?</h6>
+                    <p class="small text-muted mb-0">Analysis reveals Metro provides the lowest average travel time overall, while Local train is fastest for trips exceeding 20 km.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-3 bg-light rounded border h-100">
+                    <h6 class="fw-bold text-dark"><i class="bi bi-arrow-right-circle text-primary me-2"></i>Which mode is cheapest?</h6>
+                    <p class="small text-muted mb-0">Local trains offer the lowest cost per kilometre (averaging under ₹1.5/km), drastically cheaper than Auto rickshaws.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-3 bg-light rounded border h-100">
+                    <h6 class="fw-bold text-dark"><i class="bi bi-arrow-right-circle text-primary me-2"></i>How does Peak Hour affect travel time?</h6>
+                    <p class="small text-muted mb-0">Auto rickshaw travel times increase by 35–45% during peak hours due to road congestion, whereas Metro remains resilient.</p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="p-3 bg-light rounded border h-100">
+                    <h6 class="fw-bold text-dark"><i class="bi bi-arrow-right-circle text-primary me-2"></i>Can Machine Learning predict the transport choice?</h6>
+                    <p class="small text-muted mb-0">Using Decision Tree and Random Forest classifiers, we achieve over 95% test accuracy in mapping commuter trip parameters to suitable transport.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,36 @@
+{
+    "dt_accuracy": 97.07,
+    "rf_accuracy": 97.07,
+    "total_test_samples": 239,
+    "feature_importance": {
+        "Cost_INR": 96.23,
+        "Delay_min": 3.19,
+        "Distance_km": 0.3,
+        "Travel_Time_min": 0.15,
+        "Waiting_Time_min": 0.13,
+        "Peak_Hour": 0.0,
+        "Crowd_Level": 0.0,
+        "Weather": 0.0,
+        "Comfort_Rating": 0.0
+    },
+    "classification_report": {
+        "Auto": {
+            "precision": 0.98,
+            "recall": 0.96,
+            "f1_score": 0.97,
+            "support": 54
+        },
+        "Local": {
+            "precision": 0.97,
+            "recall": 0.98,
+            "f1_score": 0.98,
+            "support": 102
+        },
+        "Metro": {
+            "precision": 0.96,
+            "recall": 0.96,
+            "f1_score": 0.96,
+            "support": 83
+        }
+    }
+}

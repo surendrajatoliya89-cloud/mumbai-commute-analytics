@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+{% block title %}Transport Comparison — Mumbai Commute Analytics{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <h2 class="fw-bold text-dark mb-1">Transport Mode Comparison</h2>
+    <p class="text-muted mb-0">Multi-dimensional evaluation: Metro vs Mumbai Local vs Auto Rickshaw</p>
+</div>
+
+<!-- Comparison Summary Cards -->
+<div class="row g-4 mb-4">
+    {% for mode, data in comp.items() %}
+    <div class="col-md-4">
+        <div class="card stat-card h-100 p-3 border-top border-4 {% if mode == 'Metro' %}border-primary{% elif mode == 'Local' %}border-danger{% else %}border-warning{% endif %}">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="fw-bold mb-0 {% if mode == 'Metro' %}text-primary{% elif mode == 'Local' %}text-danger{% else %}text-dark{% endif %}">
+                    {{ mode }}
+                </h4>
+                <span class="badge bg-light text-dark border">{{ data.Trips }} trips</span>
+            </div>
+            
+            <div class="list-group list-group-flush small">
+                <div class="list-group-item d-flex justify-content-between px-0">
+                    <span class="text-muted">Avg Distance:</span>
+                    <strong class="text-dark">{{ data.Avg_Distance }} km</strong>
+                </div>
+                <div class="list-group-item d-flex justify-content-between px-0">
+                    <span class="text-muted">Avg Travel Time:</span>
+                    <strong class="text-dark">{{ data.Avg_Time }} min</strong>
+                </div>
+                <div class="list-group-item d-flex justify-content-between px-0">
+                    <span class="text-muted">Avg Fare Cost:</span>
+                    <strong class="text-dark">₹{{ data.Avg_Cost }}</strong>
+                </div>
+                <div class="list-group-item d-flex justify-content-between px-0">
+                    <span class="text-muted">Cost Per Km:</span>
+                    <strong class="text-dark">₹{{ data.Avg_Cost_Per_Km }}/km</strong>
+                </div>
+                <div class="list-group-item d-flex justify-content-between px-0">
+                    <span class="text-muted">Avg Waiting Time:</span>
+                    <strong class="text-dark">{{ data.Avg_Waiting }} min</strong>
+                </div>
+                <div class="list-group-item d-flex justify-content-between px-0">
+                    <span class="text-muted">Avg Traffic/Signal Delay:</span>
+                    <strong class="text-dark">{{ data.Avg_Delay }} min</strong>
+                </div>
+                <div class="list-group-item d-flex justify-content-between px-0">
+                    <span class="text-muted">Comfort Score:</span>
+                    <strong class="text-dark">{{ data.Avg_Comfort }} / 5.0</strong>
+                </div>
+                <div class="list-group-item d-flex justify-content-between px-0">
+                    <span class="text-muted">User Satisfaction:</span>
+                    <strong class="text-dark">{{ data.Avg_Rating }} / 5.0</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<!-- Comparison Charts Row -->
+<div class="row g-4 mb-4">
+    <div class="col-lg-6">
+        <div class="card stat-card p-4 h-100">
+            <h5 class="fw-bold mb-3"><i class="bi bi-clock-history text-primary me-2"></i>Travel Time vs Cost Trade-off</h5>
+            <div style="height: 300px; position: relative;">
+                <canvas id="timeCostChart"></canvas>
+            </div>
+            <small class="text-muted text-center d-block mt-2">
+                Higher cost in Auto is associated with personal comfort and point-to-point transit, but NOT lower travel time during traffic.
+            </small>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card stat-card p-4 h-100">
+            <h5 class="fw-bold mb-3"><i class="bi bi-star-fill text-warning me-2"></i>Comfort vs User Satisfaction Rating</h5>
+            <div style="height: 300px; position: relative;">
+                <canvas id="comfortRatingChart"></canvas>
+            </div>
+            <small class="text-muted text-center d-block mt-2">
+                Metro leads comfortably in passenger satisfaction and cleanliness.
+            </small>
+        </div>
+    </div>
+</div>
+
+<!-- Side-by-Side Detailed Evaluation Table -->
+<div class="card stat-card p-4">
+    <h5 class="fw-bold mb-3"><i class="bi bi-table text-secondary me-2"></i>Matrix Comparison Table</h5>
+    <div class="table-responsive">
+        <table class="table table-bordered align-middle text-center mb-0">
+            <thead class="table-dark">
+                <tr>
+                    <th class="text-start">Metric / Parameter</th>
+                    <th>Metro</th>
+                    <th>Local Train</th>
+                    <th>Auto Rickshaw</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-start fw-semibold">Primary Use-Case</td>
+                    <td>Mid-distance arterial transit</td>
+                    <td>Long-distance commuter backbone</td>
+                    <td>Short distance / Last-mile</td>
+                </tr>
+                <tr>
+                    <td class="text-start fw-semibold">Typical Fare Range</td>
+                    <td>₹20 – ₹60</td>
+                    <td>₹5 – ₹25</td>
+                    <td>₹30 – ₹350+</td>
+                </tr>
+                <tr>
+                    <td class="text-start fw-semibold">Traffic Congestion Impact</td>
+                    <td>Zero (Elevated / Underground track)</td>
+                    <td>Zero (Dedicated rail tracks)</td>
+                    <td>Severe (Subject to road traffic)</td>
+                </tr>
+                <tr>
+                    <td class="text-start fw-semibold">Peak Rush Crowding</td>
+                    <td>Moderate to High</td>
+                    <td>Extremely High (Super Dense Crush)</td>
+                    <td>None (Personal occupancy)</td>
+                </tr>
+                <tr>
+                    <td class="text-start fw-semibold">Air Conditioning</td>
+                    <td>100% Fully Air Conditioned</td>
+                    <td>Limited (mostly Non-AC trains)</td>
+                    <td>Open air / Non-AC</td>
+                </tr>
+                <tr>
+                    <td class="text-start fw-semibold">Monsoon Reliability</td>
+                    <td>High (Protected corridors)</td>
+                    <td>Moderate (Waterlogging on low tracks)</td>
+                    <td>Low (Road waterlogging & fare surcharges)</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const modes = {{ modes | tojson }};
+    const times = {{ times | tojson }};
+    const costs = {{ costs | tojson }};
+    const comfort = {{ comfort | tojson }};
+    const ratings = {{ ratings | tojson }};
+
+    // Travel Time vs Cost Grouped Bar Chart
+    const ctxTC = document.getElementById('timeCostChart').getContext('2d');
+    new Chart(ctxTC, {
+        type: 'bar',
+        data: {
+            labels: modes,
+            datasets: [
+                {
+                    label: 'Avg Travel Time (min)',
+                    data: times,
+                    backgroundColor: '#0d6efd',
+                    borderRadius: 4
+                },
+                {
+                    label: 'Avg Cost (₹)',
+                    data: costs,
+                    backgroundColor: '#ffc107',
+                    borderRadius: 4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+    // Comfort vs Rating Chart
+    const ctxCR = document.getElementById('comfortRatingChart').getContext('2d');
+    new Chart(ctxCR, {
+        type: 'bar',
+        data: {
+            labels: modes,
+            datasets: [
+                {
+                    label: 'Comfort Rating (1-5)',
+                    data: comfort,
+                    backgroundColor: '#198754',
+                    borderRadius: 4
+                },
+                {
+                    label: 'User Rating (1-5)',
+                    data: ratings,
+                    backgroundColor: '#0dcaf0',
+                    borderRadius: 4
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: true, max: 5 }
+            }
+        }
+    });
+</script>
+{% endblock %}
+

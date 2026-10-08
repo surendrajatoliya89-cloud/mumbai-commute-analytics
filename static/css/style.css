@@ -1,0 +1,128 @@
+/* 
+ * style.css
+ * Custom styles for Mumbai Commute Analytics
+ * College Project - B.Sc Data Science
+ */
+
+:root {
+    --primary-color: #0d6efd;
+    --metro-color: #0d6efd;
+    --local-color: #dc3545;
+    --auto-color: #ffc107;
+    --bg-light: #f8f9fa;
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #f4f6f9;
+    color: #333333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* Navbar */
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.nav-link {
+    font-weight: 500;
+    padding: 0.5rem 0.9rem !important;
+}
+
+.nav-link.active {
+    color: #fff !important;
+    font-weight: 600;
+    border-bottom: 2px solid #ffc107;
+}
+
+/* Academic Disclaimer Banner */
+.academic-disclaimer-banner {
+    background-color: #fff3cd;
+    border-left: 5px solid #ffc107;
+    padding: 10px 16px;
+    font-size: 0.88rem;
+    color: #664d03;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+/* Cards */
+.stat-card {
+    border: none;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.stat-icon {
+    font-size: 2.2rem;
+    opacity: 0.85;
+}
+
+/* Mode Badges */
+.badge-metro {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.badge-local {
+    background-color: #dc3545;
+    color: white;
+}
+
+.badge-auto {
+    background-color: #ffc107;
+    color: #212529;
+}
+
+/* Tables */
+.table-responsive {
+    border-radius: 8px;
+    background: white;
+    box-shadow: var(--card-shadow);
+}
+
+.table th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.table td {
+    vertical-align: middle;
+    font-size: 0.9rem;
+}
+
+/* Prediction card */
+.prediction-box {
+    border: 2px dashed #0d6efd;
+    background: #e7f1ff;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+/* Footer */
+footer {
+    background-color: #212529;
+    color: #adb5bd;
+    font-size: 0.85rem;
+    padding: 20px 0;
+    margin-top: 40px;
+}
+

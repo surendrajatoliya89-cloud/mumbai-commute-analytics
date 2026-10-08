@@ -1,0 +1,198 @@
+{% extends "base.html" %}
+
+{% block title %}About & Viva Prep — Mumbai Commute Analytics{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <h2 class="fw-bold text-dark mb-1">About the Project & College Viva Preparation</h2>
+    <p class="text-muted mb-0">Project architecture, theoretical foundations, and viva voce interview guide</p>
+</div>
+
+<!-- Project Overview Card -->
+<div class="card stat-card p-4 mb-4">
+    <h4 class="fw-bold text-primary mb-3"><i class="bi bi-info-circle-fill me-2"></i>1. Project Objective & Scope</h4>
+    <p class="text-secondary">
+        The primary objective of <strong>Mumbai Commute Analytics</strong> is to build an empirical, beginner-friendly Data Science pipeline that models urban commuting patterns across Mumbai's three dominant transit modes: <strong>Mumbai Metro</strong>, <strong>Mumbai Suburban Local Train</strong>, and <strong>Auto Rickshaw</strong>.
+    </p>
+    <p class="text-secondary mb-0">
+        By examining transit metrics including travel time, fare cost, distance, waiting time, peak-hour bottlenecks, crowd levels, and weather delays, this system demonstrates end-to-end Data Science workflows: data generation, cleaning, exploratory data analysis (EDA), explainable machine learning classification, and web dashboard deployment.
+    </p>
+</div>
+
+<!-- Technology Stack Card -->
+<div class="card stat-card p-4 mb-4">
+    <h4 class="fw-bold text-dark mb-3"><i class="bi bi-stack me-2"></i>2. Technology Stack Breakdown</h4>
+    <div class="row g-3">
+        <div class="col-md-3">
+            <div class="p-3 bg-light rounded border h-100">
+                <h6 class="fw-bold text-primary"><i class="bi bi-window me-2"></i>Frontend</h6>
+                <ul class="list-unstyled small text-muted mb-0">
+                    <li>• HTML5 & CSS3</li>
+                    <li>• Bootstrap 5</li>
+                    <li>• Chart.js</li>
+                    <li>• Vanilla JavaScript</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="p-3 bg-light rounded border h-100">
+                <h6 class="fw-bold text-success"><i class="bi bi-server me-2"></i>Backend</h6>
+                <ul class="list-unstyled small text-muted mb-0">
+                    <li>• Python 3</li>
+                    <li>• Flask Microframework</li>
+                    <li>• Jinja2 Templating</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="p-3 bg-light rounded border h-100">
+                <h6 class="fw-bold text-danger"><i class="bi bi-cpu me-2"></i>Data Science & ML</h6>
+                <ul class="list-unstyled small text-muted mb-0">
+                    <li>• Pandas & NumPy</li>
+                    <li>• Scikit-learn</li>
+                    <li>• Matplotlib & Seaborn</li>
+                    <li>• Decision Tree & Random Forest</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="p-3 bg-light rounded border h-100">
+                <h6 class="fw-bold text-warning text-dark"><i class="bi bi-database me-2"></i>Database & BI</h6>
+                <ul class="list-unstyled small text-muted mb-0">
+                    <li>• MySQL Database</li>
+                    <li>• mysql-connector-python</li>
+                    <li>• Microsoft Power BI</li>
+                    <li>• Excel</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Dataset & Limitations Card -->
+<div class="card stat-card p-4 mb-4">
+    <h4 class="fw-bold text-danger mb-3"><i class="bi bi-exclamation-octagon-fill me-2"></i>3. Dataset & Project Limitations</h4>
+    <div class="alert alert-warning border small mb-3">
+        <strong>Mandatory Academic Disclaimer:</strong>
+        <em>"This dataset is created/simulated for academic analysis and does not represent official Mumbai transport statistics."</em>
+    </div>
+    <div class="row g-3 small text-secondary">
+        <div class="col-md-6">
+            <h6 class="fw-bold text-dark">Why Simulated Data?</h6>
+            <p>Official, granular trip-level datasets containing simultaneous waiting times, delays, costs, and passenger crowd ratings for individual transit riders across Mumbai are proprietary and not publicly available in open data formats. Hence, a realistic 1,200-sample academic simulation was generated using verified Mumbai geography.</p>
+        </div>
+        <div class="col-md-6">
+            <h6 class="fw-bold text-dark">Key Limitations:</h6>
+            <ul>
+                <li>Does not include multi-modal transit (e.g. Walking + Auto + Train).</li>
+                <li>Dynamic surge fares (e.g. ride-hailing aggregators) are excluded; standard Mumbai auto meter pricing rules are applied.</li>
+                <li>The ML model reflects patterns within this specific dataset and should not be used as an official municipal planning engine.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- College Viva Preparation FAQ -->
+<div class="card stat-card p-4 mb-4">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h4 class="fw-bold text-dark mb-0"><i class="bi bi-mortarboard-fill text-primary me-2"></i>4. College Viva Voce Questions & Answers</h4>
+        <span class="badge bg-primary">Exam Preparation</span>
+    </div>
+    <p class="text-muted small mb-4">Essential questions commonly asked by external college examiners for B.Sc Data Science projects.</p>
+
+    <div class="accordion" id="vivaAccordion">
+        <!-- Q1 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#viva1">
+                    <strong>Q1: What is Data Science and what is the lifecycle followed here?</strong>
+                </button>
+            </h2>
+            <div id="viva1" class="accordion-collapse collapse show" data-bs-parent="#vivaAccordion">
+                <div class="accordion-body small text-secondary">
+                    <strong>Data Science</strong> is the interdisciplinary field that uses statistical methods, scientific processes, and algorithms to extract actionable insights from data.<br>
+                    <strong>Our Lifecycle:</strong> Data Collection/Simulation → Data Cleaning & Preprocessing (Pandas) → Exploratory Data Analysis & Visualization (Seaborn/Matplotlib) → Feature Engineering → Model Training & Evaluation (Decision Tree in Scikit-learn) → Deployment (Flask Web App & Power BI Dashboard).
+                </div>
+            </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#viva2">
+                    <strong>Q2: Why was Data Cleaning necessary in this project? What steps did you take?</strong>
+                </button>
+            </h2>
+            <div id="viva2" class="accordion-collapse collapse" data-bs-parent="#vivaAccordion">
+                <div class="accordion-body small text-secondary">
+                    Raw data in the real world is messy. In our project, the raw dataset contained:
+                    <ol>
+                        <li><strong>Duplicate rows:</strong> Identified and removed using <code>df.drop_duplicates()</code>.</li>
+                        <li><strong>Inconsistent text casing:</strong> Standardized 'metro', '  Local  ', 'auto rickshaw' into clean canonical labels ('Metro', 'Local', 'Auto').</li>
+                        <li><strong>Missing values (NaN):</strong> Imputed missing <code>Waiting_Time_min</code> with the mode/median of the respective transport mode, and missing <code>Crowd_Level</code> using mode.</li>
+                        <li><strong>Impossible / Anomaly values:</strong> Filtered out impossible negative travel times, negative costs, or distances &gt; 70 km.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#viva3">
+                    <strong>Q3: Why did you choose a Decision Tree Classifier as your primary model?</strong>
+                </button>
+            </h2>
+            <div id="viva3" class="accordion-collapse collapse" data-bs-parent="#vivaAccordion">
+                <div class="accordion-body small text-secondary">
+                    A <strong>Decision Tree Classifier</strong> is simple, intuitive, and highly explainable (white-box model). Unlike complex black-box deep neural networks, a Decision Tree creates transparent <em>if-else</em> decision rules based on thresholds like distance and cost that human examiners and commuters can easily interpret.
+                </div>
+            </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#viva4">
+                    <strong>Q4: What is Train-Test Split and why did you use 80-20?</strong>
+                </button>
+            </h2>
+            <div id="viva4" class="accordion-collapse collapse" data-bs-parent="#vivaAccordion">
+                <div class="accordion-body small text-secondary">
+                    Train-test split partitions our dataset so that the model is trained on one portion (80%, 956 samples) and tested on an unseen portion (20%, 239 samples). This prevents <strong>overfitting</strong> and allows us to verify whether the model can generalize accurately to new commute trips.
+                </div>
+            </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#viva5">
+                    <strong>Q5: What is a Confusion Matrix and what does it tell you?</strong>
+                </button>
+            </h2>
+            <div id="viva5" class="accordion-collapse collapse" data-bs-parent="#vivaAccordion">
+                <div class="accordion-body small text-secondary">
+                    A <strong>Confusion Matrix</strong> is an $N \times N$ evaluation grid comparing the model's predicted classes against actual ground-truth classes. The diagonal elements represent correct predictions (True Positives), while off-diagonal elements show classification errors (e.g., misclassifying an Auto trip as a Metro trip).
+                </div>
+            </div>
+        </div>
+
+        <!-- Q6 -->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#viva6">
+                    <strong>Q6: What is the difference between Power BI and our Flask dashboard?</strong>
+                </button>
+            </h2>
+            <div id="viva6" class="accordion-collapse collapse" data-bs-parent="#vivaAccordion">
+                <div class="accordion-body small text-secondary">
+                    <strong>Flask Dashboard:</strong> An interactive custom web application built with Python and HTML/JS that directly runs our real-time Scikit-learn Machine Learning inference form.<br>
+                    <strong>Power BI Dashboard:</strong> A dedicated Business Intelligence tool designed for enterprise reporting, drag-and-drop slicing, multi-dimensional DAX calculations, and interactive executive reporting.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

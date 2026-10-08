@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}Commute Dataset — Mumbai Commute Analytics{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h2 class="fw-bold text-dark mb-1">Cleaned Commute Dataset</h2>
+        <p class="text-muted mb-0">Browse and filter cleaned commute records used for analysis and ML</p>
+    </div>
+    <span class="badge bg-secondary fs-6 py-2 px-3">
+        Showing {{ records|length }} of {{ total_matching }} matching records
+    </span>
+</div>
+
+<!-- Filters Card -->
+<div class="card stat-card p-3 mb-4">
+    <form method="GET" action="{{ url_for('data_view') }}" class="row g-3 align-items-end">
+        <div class="col-md-3">
+            <label class="form-label fw-semibold small">Transport Mode</label>
+            <select name="mode" class="form-select form-select-sm" onchange="this.form.submit()">
+                <option value="All" {% if selected_mode == 'All' %}selected{% endif %}>All Modes</option>
+                <option value="Metro" {% if selected_mode == 'Metro' %}selected{% endif %}>Metro</option>
+                <option value="Local" {% if selected_mode == 'Local' %}selected{% endif %}>Local Train</option>
+                <option value="Auto" {% if selected_mode == 'Auto' %}selected{% endif %}>Auto Rickshaw</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label fw-semibold small">Peak Hour</label>
+            <select name="peak" class="form-select form-select-sm" onchange="this.form.submit()">
+                <option value="All" {% if selected_peak == 'All' %}selected{% endif %}>All</option>
+                <option value="Yes" {% if selected_peak == 'Yes' %}selected{% endif %}>Peak (Yes)</option>
+                <option value="No" {% if selected_peak == 'No' %}selected{% endif %}>Non-Peak (No)</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label fw-semibold small">Weather</label>
+            <select name="weather" class="form-select form-select-sm" onchange="this.form.submit()">
+                <option value="All" {% if selected_weather == 'All' %}selected{% endif %}>All Weather</option>
+                <option value="Clear" {% if selected_weather == 'Clear' %}selected{% endif %}>Clear</option>
+                <option value="Overcast" {% if selected_weather == 'Overcast' %}selected{% endif %}>Overcast</option>
+                <option value="Rainy" {% if selected_weather == 'Rainy' %}selected{% endif %}>Rainy</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label fw-semibold small">Instant Text Search</label>
+            <input type="text" id="tableSearch" class="form-control form-control-sm" placeholder="Search area, ID, etc...">
+        </div>
+    </form>
+</div>
+
+<!-- Records Table -->
+<div class="table-responsive">
+    <table class="table table-hover table-striped align-middle mb-0" id="commuteTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Date</th>
+                <th>Route</th>
+                <th>Mode</th>
+                <th>Distance</th>
+                <th>Time</th>
+                <th>Wait</th>
+                <th>Cost</th>
+                <th>Peak</th>
+                <th>Crowd</th>
+                <th>Delay</th>
+                <th>Weather</th>
+                <th>Comfort</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in records %}
+            <tr>
+                <td><small class="fw-bold text-muted">{{ r.Commute_ID }}</small></td>
+                <td><small>{{ r.Date }}</small></td>
+                <td>
+                    <span class="fw-semibold">{{ r.Starting_Area }}</span>
+                    <i class="bi bi-arrow-right text-muted mx-1"></i>
+                    <span class="fw-semibold">{{ r.Destination }}</span>
+                </td>
+                <td>
+                    <span class="badge {% if r.Transport_Mode == 'Metro' %}badge-metro{% elif r.Transport_Mode == 'Local' %}badge-local{% else %}badge-auto{% endif %}">
+                        {{ r.Transport_Mode }}
+                    </span>
+                </td>
+                <td>{{ r.Distance_km }} km</td>
+                <td><strong>{{ r.Travel_Time_min }}</strong>m</td>
+                <td>{{ r.Waiting_Time_min }}m</td>
+                <td class="text-success fw-bold">₹{{ r.Cost_INR }}</td>
+                <td>
+                    {% if r.Peak_Hour == 'Yes' %}
+                    <span class="badge bg-danger-subtle text-danger border border-danger-subtle">Peak</span>
+                    {% else %}
+                    <span class="badge bg-secondary-subtle text-secondary">Off-Peak</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <span class="badge {% if r.Crowd_Level in ['Extreme', 'High'] %}bg-danger{% elif r.Crowd_Level == 'Medium' %}bg-warning text-dark{% else %}bg-success{% endif %}">
+                        {{ r.Crowd_Level }}
+                    </span>
+                </td>
+                <td>{{ r.Delay_min }}m</td>
+                <td><small class="text-muted">{{ r.Weather }}</small></td>
+                <td>{{ r.Comfort_Rating }}/5</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="text-center mt-3 text-muted small">
+    Showing first 100 rows matching the active filters for optimal browser rendering. Full dataset stored in <code>data/commute_data_cleaned.csv</code>.
+</div>
+{% endblock %}
+

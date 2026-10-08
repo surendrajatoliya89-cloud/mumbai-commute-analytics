@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard — Mumbai Commute Analytics{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold text-dark mb-1">Commute Analytics Dashboard</h2>
+        <p class="text-muted mb-0">High-level exploratory metrics across all cleaned commute trips</p>
+    </div>
+    <a href="{{ url_for('data_view') }}" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-table me-1"></i> View Raw Records
+    </a>
+</div>
+
+<!-- 6 Core KPI Cards -->
+<div class="row g-3 mb-4">
+    <div class="col-md-4 col-lg-2">
+        <div class="card stat-card p-3 text-center border-start border-4 border-primary h-100">
+            <small class="text-muted text-uppercase fw-semibold">Total Commutes</small>
+            <div class="h3 fw-bold text-primary my-2">{{ total_commutes }}</div>
+            <small class="text-secondary">Simulated records</small>
+        </div>
+    </div>
+    <div class="col-md-4 col-lg-2">
+        <div class="card stat-card p-3 text-center border-start border-4 border-info h-100">
+            <small class="text-muted text-uppercase fw-semibold">Avg Travel Time</small>
+            <div class="h3 fw-bold text-info my-2">{{ avg_travel_time }} <span class="fs-6 text-muted">min</span></div>
+            <small class="text-secondary">Across all modes</small>
+        </div>
+    </div>
+    <div class="col-md-4 col-lg-2">
+        <div class="card stat-card p-3 text-center border-start border-4 border-success h-100">
+            <small class="text-muted text-uppercase fw-semibold">Avg Cost</small>
+            <div class="h3 fw-bold text-success my-2">₹{{ avg_cost }}</div>
+            <small class="text-secondary">Across all modes</small>
+        </div>
+    </div>
+    <div class="col-md-4 col-lg-2">
+        <div class="card stat-card p-3 text-center border-start border-4 border-dark h-100">
+            <small class="text-muted text-uppercase fw-semibold">Most Used Mode</small>
+            <div class="h4 fw-bold text-dark my-2">{{ most_used_transport }}</div>
+            <small class="text-secondary">{{ mode_counts[most_used_transport] }} commutes</small>
+        </div>
+    </div>
+    <div class="col-md-4 col-lg-2">
+        <div class="card stat-card p-3 text-center border-start border-4 border-primary h-100">
+            <small class="text-muted text-uppercase fw-semibold">Fastest Mode</small>
+            <div class="h4 fw-bold text-primary my-2">{{ fastest_transport }}</div>
+            <small class="text-secondary">Avg {{ mode_avg_time[fastest_transport] | round(1) }} min</small>
+        </div>
+    </div>
+    <div class="col-md-4 col-lg-2">
+        <div class="card stat-card p-3 text-center border-start border-4 border-danger h-100">
+            <small class="text-muted text-uppercase fw-semibold">Cheapest Mode</small>
+            <div class="h4 fw-bold text-danger my-2">{{ cheapest_transport }}</div>
+            <small class="text-secondary">Avg ₹{{ mode_avg_cost[cheapest_transport] | round(1) }}</small>
+        </div>
+    </div>
+</div>
+
+<!-- Interactive Charts Section -->
+<div class="row g-4 mb-4">
+    <div class="col-lg-6">
+        <div class="card stat-card p-4 h-100">
+            <h5 class="fw-bold mb-3"><i class="bi bi-pie-chart-fill text-primary me-2"></i>Commute Mode Share in Dataset</h5>
+            <div style="height: 280px; position: relative;">
+                <canvas id="modeShareChart"></canvas>
+            </div>
+            <div class="text-center mt-3 small text-muted">
+                Breakdown of simulated trips across Local Train, Metro, and Auto.
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card stat-card p-4 h-100">
+            <h5 class="fw-bold mb-3"><i class="bi bi-currency-rupee text-success me-2"></i>Average Trip Cost (₹) by Mode</h5>
+            <div style="height: 280px; position: relative;">
+                <canvas id="costComparisonChart"></canvas>
+            </div>
+            <div class="text-center mt-3 small text-muted">
+                Auto is the most expensive while Local Train remains the most affordable.
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Additional Mode Breakdown Table -->
+<div class="card stat-card p-4 mb-4">
+    <h5 class="fw-bold mb-3"><i class="bi bi-grid-3x3-gap-fill text-secondary me-2"></i>Transport Mode Aggregate Statistics</h5>
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Transport Mode</th>
+                    <th>Total Trips</th>
+                    <th>Average Time</th>
+                    <th>Average Cost</th>
+                    <th>Key Characteristic</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for mode, count in mode_counts.items() %}
+                <tr>
+                    <td>
+                        <span class="badge {% if mode == 'Metro' %}badge-metro{% elif mode == 'Local' %}badge-local{% else %}badge-auto{% endif %} px-2 py-1">
+                            {{ mode }}
+                        </span>
+                    </td>
+                    <td><strong>{{ count }}</strong> trips</td>
+                    <td>{{ mode_avg_time[mode] | round(1) }} minutes</td>
+                    <td>₹{{ mode_avg_cost[mode] | round(1) }}</td>
+                    <td class="text-muted small">
+                        {% if mode == 'Local' %}
+                        Most cost-effective for long distances (20–40 km), high peak crowding.
+                        {% elif mode == 'Metro' %}
+                        High reliability, air-conditioned, minimal delays, moderate fare.
+                        {% else %}
+                        Direct point-to-point travel, high cost per km, vulnerable to traffic.
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Mode Share Doughnut Chart
+    const ctxShare = document.getElementById('modeShareChart').getContext('2d');
+    new Chart(ctxShare, {
+        type: 'doughnut',
+        data: {
+            labels: {{ chart_modes | tojson }},
+            datasets: [{
+                data: {{ chart_counts | tojson }},
+                backgroundColor: ['#dc3545', '#0d6efd', '#ffc107'],
+                borderColor: '#ffffff',
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'bottom' }
+            }
+        }
+    });
+
+    // Cost Comparison Bar Chart
+    const ctxCost = document.getElementById('costComparisonChart').getContext('2d');
+    const modeLabels = {{ chart_modes | tojson }};
+    const avgCostMap = {{ mode_avg_cost | tojson }};
+    const costValues = modeLabels.map(m => avgCostMap[m]);
+
+    new Chart(ctxCost, {
+        type: 'bar',
+        data: {
+            labels: modeLabels,
+            datasets: [{
+                label: 'Average Cost (INR)',
+                data: costValues,
+                backgroundColor: ['#dc3545', '#0d6efd', '#ffc107'],
+                borderRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: { display: true, text: 'Fare in INR (₹)' }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}
+
